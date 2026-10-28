@@ -20,22 +20,33 @@ export default function SignInForm({ onSwitch }) {
     }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    const result = signInSchema.safeParse(values)
-    if (!result.success) {
-      const fieldErrors = {}
-      for (const issue of result.error.issues) {
-        const key = issue.path[0]
-        if (key && !fieldErrors[key]) fieldErrors[key] = issue.message
+  
+function handleSubmit(e) {
+  e.preventDefault()
+
+  const result = signInSchema.safeParse(values)
+
+  if (!result.success) {
+    const fieldErrors = {}
+
+    for (const issue of result.error.issues) {
+      const key = issue.path[0]
+      if (key && !fieldErrors[key]) {
+        fieldErrors[key] = issue.message
       }
-      setErrors(fieldErrors)
-      setStatus(null)
-      return
     }
-    setErrors({})
-    setStatus('success')
+
+    setErrors(fieldErrors)
+    setStatus(null)
+    return
   }
+
+  setErrors({})
+  setStatus('success')
+
+  window.location.href =
+    'https://currency-exchange-navy-five.vercel.app/'
+}
 
   return (
     <form
